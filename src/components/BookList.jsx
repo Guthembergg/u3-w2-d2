@@ -48,7 +48,9 @@ const BookList = (props) => {
           </Row>
         </Col>
         <Col md={4}>
-          <CommentArea asin={selectedBook} />
+          <div className="position-fixed">
+            <CommentArea asin={selectedBook} />
+          </div>
         </Col>
       </Row>
     </>

@@ -63,7 +63,7 @@ const AddComment = (props) => {
   };
 
   return (
-    <div className="my-3">
+    <div className="my-3 ">
       <Form onSubmit={sendComment}>
         <Form.Group>
           <Form.Label>Comment text</Form.Label>
