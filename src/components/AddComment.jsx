@@ -1,106 +1,109 @@
-import { Component } from 'react'
-import { Button, Form } from 'react-bootstrap'
+import { useState, useEffect } from "react";
+import { Button, Form } from "react-bootstrap";
 
-class AddComment extends Component {
-  state = {
-    comment: {
-      comment: '',
-      rate: 1,
-      elementId: this.props.asin,
-    },
-  }
+const AddComment = (props) => {
+  // state = {
+  //   comment: {
+  //     comment: '',
+  //     rate: 1,
+  //     elementId: this.props.asin,
+  //   },
+  // }
+  const [comment, setComment] = useState({
+    comment: "",
+    rate: 1,
+    elementId: props.asin,
+  });
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.asin !== this.props.asin) {
-      this.setState({
-        comment: {
-          ...this.state.comment,
-          elementId: this.props.asin,
-        },
-      })
-    }
-  }
+  useEffect(() => {
+    setComment({ ...comment, elementId: props.asin });
+  }, [props.asin]);
 
-  sendComment = async (e) => {
-    e.preventDefault()
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.asin !== this.props.asin) {
+  //     this.setState({
+  //       comment: {
+  //         ...this.state.comment,
+  //         elementId: this.props.asin,
+  //       },
+  //     })
+  //   }
+  // }
+
+  const sendComment = async (e) => {
+    e.preventDefault();
     try {
       let response = await fetch(
-        'https://striveschool-api.herokuapp.com/api/comments',
+        "https://striveschool-api.herokuapp.com/api/comments",
         {
-          method: 'POST',
-          body: JSON.stringify(this.state.comment),
+          method: "POST",
+          body: JSON.stringify(comment),
           headers: {
-            'Content-type': 'application/json',
-            Authorization: 'Bearer your-auth-token-goes-here',
+            "Content-type": "application/json",
+            Authorization:
+              "Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2U0ZjM3ZmEyNDc4ZDAwMTNhMDU3ZmMiLCJpYXQiOjE2NzU5NDg5MjcsImV4cCI6MTY3NzE1ODUyN30.KLbQdFihLwwaAc5BHQ0L8HaPauH90qhugo64glVZLaw",
           },
         }
-      )
+      );
       if (response.ok) {
-        alert('Comment was sent!')
-        this.setState({
-          comment: {
-            comment: '',
-            rate: 1,
-            elementId: this.props.asin,
-          },
-        })
+        alert("Comment was sent!");
+        setComment({
+          ...comment,
+          comment: "",
+          rate: 1,
+          elementId: props.asin,
+        });
       } else {
-        console.log('error')
-        alert('something went wrong')
+        console.log("error");
+        alert("something went wrong");
       }
     } catch (error) {
-      console.log('error')
+      console.log("error");
     }
-  }
+  };
 
-  render() {
-    return (
-      <div className="my-3">
-        <Form onSubmit={this.sendComment}>
-          <Form.Group>
-            <Form.Label>Comment text</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Add comment here"
-              value={this.state.comment.comment}
-              onChange={(e) =>
-                this.setState({
-                  comment: {
-                    ...this.state.comment,
-                    comment: e.target.value,
-                  },
-                })
-              }
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Rating</Form.Label>
-            <Form.Control
-              as="select"
-              value={this.state.comment.rate}
-              onChange={(e) =>
-                this.setState({
-                  comment: {
-                    ...this.state.comment,
-                    rate: e.target.value,
-                  },
-                })
-              }
-            >
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </Form.Control>
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
-      </div>
-    )
-  }
-}
+  return (
+    <div className="my-3">
+      <Form onSubmit={sendComment}>
+        <Form.Group>
+          <Form.Label>Comment text</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Add comment here"
+            value={comment.comment}
+            onChange={(e) =>
+              setComment({
+                ...comment,
+                comment: e.target.value,
+              })
+            }
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Rating</Form.Label>
+          <Form.Control
+            as="select"
+            value={comment.rate}
+            onChange={(e) =>
+              setComment({
+                ...comment,
+                rate: e.target.value,
+              })
+            }
+          >
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </Form.Control>
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
+    </div>
+  );
+};
 
-export default AddComment
+export default AddComment;
