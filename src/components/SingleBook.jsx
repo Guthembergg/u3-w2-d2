@@ -14,11 +14,20 @@ const SingleBook = (props) => {
         onClick={() => props.changeSelectedBook(props.book.asin)}
         style={{
           border:
-            props.selectedBook === props.book.asin ? "3px solid red" : "none",
+            props.selectedBook === props.book.asin
+              ? "3px solid green"
+              : "3px solid grey ",
+          width: "206px",
+          height: "450px",
         }}
+        className="mt-2"
       >
-        <Card.Img variant="top" src={props.book.img} />
-        <Card.Body>
+        <Card.Img
+          style={{ width: "200px", height: "300px" }}
+          variant="top"
+          src={props.book.img}
+        />
+        <Card.Body className="d-flex align-items-center">
           <Card.Title style={{ color: "black" }}>{props.book.title}</Card.Title>
         </Card.Body>
       </Card>

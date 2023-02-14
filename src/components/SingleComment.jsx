@@ -25,14 +25,18 @@ const SingleComment = ({ comment }) => {
 
   return (
     <ListGroup.Item>
-      {comment.comment}
-      <Button
-        variant="danger"
-        className="ml-2"
-        onClick={() => deleteComment(comment._id)}
-      >
-        Delete
-      </Button>
+      <div className="d-flex justify-content-between ">
+        {comment.comment}
+        <div className="d-flex align-items-center">
+          <Button
+            variant="danger"
+            className="ml-2"
+            onClick={() => deleteComment(comment._id)}
+          >
+            Delete
+          </Button>
+        </div>
+      </div>
     </ListGroup.Item>
   );
 };
